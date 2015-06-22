@@ -2,14 +2,14 @@
 *
 * WaitCenter - Wait window centralizado
 *
-* lcTxt		  Texto para exibi√ß√£o
-* llWait    Aguarda fechamento do wait para continuar a execu√ß√£o
+* lcTxt		  Texto para exibiÁ„o
+* llWait    Aguarda fechamento do wait para continuar a execuÁ„o
 * lnTimeOut Timeout em segundos para o fechamento
 *
 ****
 FUNCTION WaitCenter
 	LPARAMETERS lcTxt, llWait, lnTimeOut
-*** Trata par√¢metros
+*** Trata par‚metros
 	IF VARTYPE(m.llWait)="N"
 	  m.lnTimeOut = m.llWait
 	  m.llWait = .f.
@@ -37,7 +37,7 @@ FUNCTION WaitCenter
 		lnTexLen = MAX( TXTWIDTH(lcLine,'MS Sans Serif',8,'B')+4, lnTexLen)  && 4 is border
 	NEXT
 	m.lcDispText = LEFT(m.lcDispText,255)
-*** Posiciona em rela√ß√£o a maior linha da mensagem
+*** Posiciona em relaÁ„o a maior linha da mensagem
 	lnCol = INT((SCOLS() - lnTexLen * lnAvgChar )/2)
 	lnRow = INT((SROWS() - lnRows)/2)
 
