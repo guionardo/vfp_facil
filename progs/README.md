@@ -8,7 +8,7 @@
 | NetInfo | Retorna //COMPUTADOR/USUÁRIO/Sessão (CONSOLE ou RDP) |
 | ArqVersao | Retorna a versão gravada nos detalhes do executável |
 
-## gs_api.org
+## gs_api.prg
 | Função | Descrição |
 | ------------- | ----------- |
 | GSAPIInit | Inicia declarações de APIs do windows |
@@ -25,3 +25,8 @@
 | ExcluiArquivo	| Tenta excluir um arquivo |
 | FileExtract |	Extrai arquivos incorporados no executável |
 | FileOpWithProgressBar | Copia/Move arquivo usando o shell |
+
+## gs_waitwindow.prg
+| Função | Descrição |
+| ------ | --------- |
+| WaitCenter | Wait window centralizado |
