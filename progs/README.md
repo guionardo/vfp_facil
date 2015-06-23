@@ -30,3 +30,9 @@
 | Função | Descrição |
 | ------ | --------- |
 | WaitCenter | Wait window centralizado |
+
+## gs_tabelas.prg
+| Função | Descrição |
+| ------ | --------- |
+| PushAlias | Grava Alias/Recno/Order do alias atual em uma lista FIFO |
+| PopAlias | Restaura Alias/Recno/Order do último alias registrado por PushAlias |
