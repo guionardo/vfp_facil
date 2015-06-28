@@ -56,8 +56,8 @@ ENDFUNC
 * ArqVersao		Retorna a versão gravada nos detalhes do executável
 *
 * lcArq		Nome do arquivo (default = executável atual)
-* Retorno	STRING 
-* 
+* Retorno	STRING
+*
 ****
 FUNCTION ArqVersao
 	LPARAMETERS lcArq
@@ -75,4 +75,22 @@ FUNCTION ArqVersao
 	ENDIF
 
 	RETURN ""
+ENDFUNC
+****
+*
+* FormAtivo - Retorna se Form de nome lcForm está ativo
+*
+****
+FUNCTION FormAtivo
+	LPARAMETERS lcForm
+	IF VARTYPE(m.lcForm)#"C"
+		RETURN .F.
+	ENDIF
+	m.lcForm = ALLTRIM(UPPER(m.lcForm))
+	FOR EACH loF AS FORM IN _SCREEN.FORMS
+		IF UPPER(m.loF.NAME) == m.lcForm
+			RETURN .T.
+		ENDIF
+	ENDFOR
+	RETURN .F.
 ENDFUNC
