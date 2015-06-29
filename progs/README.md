@@ -1,13 +1,5 @@
 # PRG´s com funções genéricas
 
-## gs_funcoes.prg
-| Função | Descrição          |
-| ------------- | ----------- |
-| STRZERO      | Análogo a STR, com preenchimento de zeros a esquerda.|
-| DefaultTo     | Retorna o valor default de um parâmetro   |
-| NetInfo | Retorna //COMPUTADOR/USUÁRIO/Sessão (CONSOLE ou RDP) |
-| ArqVersao | Retorna a versão gravada nos detalhes do executável |
-
 ## gs_api.prg
 | Função | Descrição |
 | ------------- | ----------- |
@@ -26,13 +18,27 @@
 | FileExtract |	Extrai arquivos incorporados no executável |
 | FileOpWithProgressBar | Copia/Move arquivo usando o shell |
 
-## gs_waitwindow.prg
-| Função | Descrição |
-| ------ | --------- |
-| WaitCenter | Wait window centralizado |
+## gs_config.prg
+
+## gs_funcoes.prg
+| Função | Descrição          |
+| ------------- | ----------- |
+| STRZERO      | Análogo a STR, com preenchimento de zeros a esquerda.|
+| DefaultTo     | Retorna o valor default de um parâmetro   |
+| NetInfo | Retorna //COMPUTADOR/USUÁRIO/Sessão (CONSOLE ou RDP) |
+| ArqVersao | Retorna a versão gravada nos detalhes do executável |
+
+## gs_init.prg
+
+## gs_reportform.prg
 
 ## gs_tabelas.prg
 | Função | Descrição |
 | ------ | --------- |
 | PushAlias | Grava Alias/Recno/Order do alias atual em uma lista FIFO |
 | PopAlias | Restaura Alias/Recno/Order do último alias registrado por PushAlias |
+
+## gs_waitcenter.prg
+| Função | Descrição |
+| ------ | --------- |
+| WaitCenter | Wait window centralizado |
