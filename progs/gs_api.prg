@@ -81,7 +81,11 @@ PROCEDURE GSAPIInit
 
 ENDPROC
 
-* Retrieve message definition from the system's message table.
+****
+*
+* Obtém a mensagem de erro do sistema a partir do código 
+*
+****
 FUNCTION WinApiErrMsg
 	LPARAMETERS tnErrorCode
 	#DEFINE FORMAT_MESSAGE_FROM_SYSTEM 0x1000
@@ -94,6 +98,11 @@ FUNCTION WinApiErrMsg
 	RETURN lcErrorMessage
 ENDFUNC
 
+****
+*
+* Executa função de operação de arquivo e retorna mensagem caso M.plFileOp_ShowError for .T.
+*
+****
 FUNCTION FileOpMessage
 	LPARAMETERS lnRet, lcMsg
 	IF m.lnRet # 0
@@ -105,16 +114,34 @@ FUNCTION FileOpMessage
 	RETURN .F.
 ENDFUNC
 
+****
+*
+* Tenta Excluir arquivo 
+* Retorna .T. em caso de sucesso
+*
+****
 FUNCTION ExcluirArquivo
 	LPARAMETERS lcArq
 	RETURN FileOpMessage(DeleteFile(m.lcArq),"Excluir "+m.lcArq)
 ENDFUNC
 
+****
+*
+* Tenta Mover Arquivo
+* Retorna .T. em caso de sucesso
+*
+*****
 FUNCTION MoverArquivo
 	LPARAMETERS lcArq, lcDest
 	RETURN FileOpMessage(MoveFile(m.lcArq,m.lcDest),"Mover "+m.lcArq+" para "+m.lcDest)
 ENDFUNC
 
+****
+*
+* Tenta Copiar Arquivo
+* Retorna .T. em caso de sucesso
+*
+****
 FUNCTION CopiarArquivo
 	LPARAMETERS lcArq, lcDest, llFalharSeExistir
 	RETURN FileOpMessage(CopyFile(m.lcArq,m.lcDest,m.llFalharSeExistir),"Copiar "+m.lcArq+" para "+m.lcDest)

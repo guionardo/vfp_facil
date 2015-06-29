@@ -4,6 +4,11 @@
 | Função | Descrição |
 | ------------- | ----------- |
 | GSAPIInit | Inicia declarações de APIs do windows |
+| WinApiErrMsg | Obtém a mensagem de erro do sistema a partir do código retornado por GetLastError() |
+| FileOpMessage | Executa função de operação de arquivo e retorna mensagem caso M.plFileOp_ShowError for .T. |
+| ExcluirArquivo | Tenta Excluir arquivo |
+| MoverArquivo | Tenta Mover Arquivo |
+| CopiarArquivo | Tenta Copiar Arquivo |
 | AProcessos | Obtém lista de processos rodando sob o nome lcProcesso |
 | CreateShortCut | Cria atalho do windows para o aplicativo |
 | GetFileSizeAPI | Retorna o tamanho de um arquivo usando a API do Windows | 
@@ -19,6 +24,11 @@
 | FileOpWithProgressBar | Copia/Move arquivo usando o shell |
 
 ## gs_config.prg
+| Função | Descrição          |
+| ------------- | ----------- |
+| Config_Init | Inicializa as configurações |
+| SetConfig | Grava uma chave de configuração |
+| GetConfig | Lê uma chave de configuração |
 
 ## gs_funcoes.prg
 | Função | Descrição          |
@@ -30,7 +40,16 @@
 
 ## gs_init.prg
 
+Executa o SET PROCEDURE para adicionar os PRG da suite.
+Inicializa as APIs
+
 ## gs_reportform.prg
+| Função | Descrição |
+| ------ | --------- |
+| ReportForm | Imprime/visualiza report |
+| GetImpressoraPadrao | Obtém a impressora padrão do report |
+| SetImpressoraPadrao | Atualiza a impressora padrão do report |
+
 
 ## gs_tabelas.prg
 | Função | Descrição |
