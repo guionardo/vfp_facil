@@ -61,3 +61,8 @@ Inicializa as APIs
 | Função | Descrição |
 | ------ | --------- |
 | WaitCenter | Wait window centralizado |
+
+## gs_hwinfo.prg
+| Função | Descrição |
+| ------ | --------- |
+| GetMotherboardInfo | Obtém informações da placa mãe |
