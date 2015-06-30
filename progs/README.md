@@ -66,3 +66,5 @@ Inicializa as APIs
 | Função | Descrição |
 | ------ | --------- |
 | GetMotherboardInfo | Obtém informações da placa mãe |
+| GetVolumeInfo	| Retorna objeto com informações da do volume no disco |
+| GetDiskInfo | Retorna informações sobre o disco |
