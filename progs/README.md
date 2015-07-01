@@ -30,6 +30,14 @@
 | SetConfig | Grava uma chave de configuração |
 | GetConfig | Lê uma chave de configuração |
 
+## gs_dialogs.prg
+| Função | Descrição |
+| ------ | --------- |
+| Erros | Mostra mensagens de Erros |
+| Sim | Pergunta |
+| Mensagem | Mostra mensagem |
+
+
 ## gs_funcoes.prg
 | Função | Descrição          |
 | ------------- | ----------- |
