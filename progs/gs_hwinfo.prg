@@ -6,7 +6,7 @@
 *
 ****
 FUNCTION GetMotherBoardInfo
-	LOCAL loW, LOOP, lcManufacturer, lcModel, lcSerialNumber, loExc as Exception 
+	LOCAL loW, LOOP, lcManufacturer, lcModel, lcSerialNumber, loExc AS EXCEPTION
 	m.loW = GETOBJECT("winmgmts:\\")
 	STORE "" TO m.lcManufacturer, m.lcModel, m.lcSerialNumber
 	TRY
@@ -23,7 +23,7 @@ FUNCTION GetMotherBoardInfo
 			ENDIF
 		NEXT
 	CATCH TO loExc
-		m.lcManufacturer = "Erro: "+m.loExc.Message
+		m.lcManufacturer = "Erro: "+m.loExc.MESSAGE
 	ENDTRY
 
 	RETURN m.lcManufacturer+" "+m.lcModel+" "+m.lcSerialNumber
@@ -76,7 +76,7 @@ FUNCTION GetVolumeInfo
 	lpFileSystemFlags        = 0
 	lpFileSystemNameBuffer   = SPACE(256)
 	nFileSystemNameSize      = 256
-	
+
 	m.loRet = CREATEOBJECT("EMPTY")
 	ADDPROPERTY(m.loRet,"OK",.F.)
 	ADDPROPERTY(m.loRet,"MSG","")
@@ -113,7 +113,7 @@ FUNCTION GetVolumeInfo
 		m.loRet.MSG = m.loExc.MESSAGE
 	ENDTRY
 	RETURN m.loRet
-ENDFUNCTION
+ENDFUNC
 
 ****
 *
@@ -124,11 +124,11 @@ ENDFUNCTION
 *	.OK		= Sucesso (.t./.f.)
 *	.SerialNumber	= número de série
 *	.Caption		= Descrição textual do objeto
-*	.Description	= Descrição	
+*	.Description	= Descrição
 *	.Name			= Nome
 *
 ****
-function FUNCTION GetDiskInfo
+FUNCTION GetDiskInfo
 	LPARAMETERS lnDiskIndex
 	IF VARTYPE(m.lnDiskIndex)#"N"
 		m.lnDiskIndex = 1
@@ -145,7 +145,7 @@ function FUNCTION GetDiskInfo
 		m.lnI = m.lnI + 1
 		IF m.lnI = m.lnDiskIndex
 			m.loRet.INDEX = m.lnDiskIndex
-			ADDPROPERTY(m.loRet,"SerialNumber",IIF(!ISNULL(m.objDisk.serialNumber),m.objDisk.serialNumber,""))
+			ADDPROPERTY(m.loRet,"SerialNumber",IIF(!ISNULL(m.objDisk.SerialNumber),m.objDisk.SerialNumber,""))
 			ADDPROPERTY(m.loRet,"Caption",IIF(!ISNULL(m.objDisk.CAPTION),m.objDisk.CAPTION,""))
 			ADDPROPERTY(m.loRet,"Description",IIF(!ISNULL(m.objDisk.DESCRIPTION),m.objDisk.DESCRIPTION,""))
 			ADDPROPERTY(m.loRet,"Name",IIF(!ISNULL(m.objDisk.NAME),m.objDisk.NAME,""))
