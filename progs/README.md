@@ -46,6 +46,13 @@
 | NetInfo | Retorna //COMPUTADOR/USUÁRIO/Sessão (CONSOLE ou RDP) |
 | ArqVersao | Retorna a versão gravada nos detalhes do executável |
 
+## gs_hash.prg
+Controle de hash dos registros
+| Função | Descrição |
+| ------ | --------- |
+| HashOK | Verifica se o registro atual está com o conteúdo intacto |
+| HashUpdate | Atualiza o campo de hash do registro atual |
+
 ## gs_init.prg
 
 Executa o SET PROCEDURE para adicionar os PRG da suite.
