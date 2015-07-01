@@ -49,6 +49,7 @@
 ## gs_hash.prg
 
 Controle de hash dos registros
+
 | Função | Descrição |
 | ------ | --------- |
 | HashOK | Verifica se o registro atual está com o conteúdo intacto |
