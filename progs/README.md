@@ -47,6 +47,7 @@
 | ArqVersao | Retorna a versão gravada nos detalhes do executável |
 
 ## gs_hash.prg
+
 Controle de hash dos registros
 | Função | Descrição |
 | ------ | --------- |
@@ -71,6 +72,16 @@ Inicializa as APIs
 | ------ | --------- |
 | PushAlias | Grava Alias/Recno/Order do alias atual em uma lista FIFO |
 | PopAlias | Restaura Alias/Recno/Order do último alias registrado por PushAlias |
+
+## gs_trataerros.prg
+
+Tratamento especial de erros na aplicação
+
+| Função | Descrição |
+| ------ | --------- |
+| GSTrataErros | Usado em ON ERROR |
+| SetTrataErrosSimples | ON ERROR MESSAGE simples |
+| CallStackSimples | Mostra cadeia de procedimentos |
 
 ## gs_waitcenter.prg
 | Função | Descrição |
