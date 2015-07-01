@@ -11,3 +11,16 @@ Linha de comando para aplicações
 
 ## gs_log.prg 
 Classe de controle de LOG da aplicação, com sistema de limpeza diária automática
+
+## gs_progressform.prg
+Diálogo de progresso 
+
+|Função|Descrição|
+|------|---------|
+| GSProgressFormInit  | Inicializa Progress Form |
+| GSProgressNovoProcesso | Adiciona processo a lista |
+| GSProgressFormClose | Fecha Processos |
+| GSProgressProcessa | Registra progresso de um processo |
+| GSProgressUpdate | Atualiza Processo |
+| Classe | GSProgressForm |
+| Classe | ProgressBar |
