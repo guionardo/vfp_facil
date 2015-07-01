@@ -24,3 +24,6 @@ Diálogo de progresso
 | GSProgressUpdate | Atualiza Processo |
 | Classe | GSProgressForm |
 | Classe | ProgressBar |
+
+## gs_metadata.prg
+Classe para manutenção de estruturas de tabelas baseado em metadata
