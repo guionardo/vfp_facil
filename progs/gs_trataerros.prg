@@ -162,7 +162,7 @@ PROCEDURE GSTrataErros
 				m.loLog.addLog("Programa  "+M.lcProc+"("+TRANSFORM(m.lnLineNo)+")")
 				m.loLog.addLog("Sistema   "+M.SISTEMA+" ("+TRANSFORM(m.VERSAO)+ " "+ArqVersao(APPLICATION.SERVERNAME)+")")
 				m.loLog.addLog("Windows   "+GetWinVer())
-				m.loLog.addLog("Net/ID    "+NetInfo()+" "+m.cUsuAtivo)
+				m.loLog.addLog("Net/ID    "+NetInfo()+" "+_SCREEN.NOMUSU)
 				m.loLog.addLog("CallStack "+m.lcCS)
 				m.loLog.addLog("*")
 				m.loLog.DESTROY()

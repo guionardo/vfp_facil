@@ -135,7 +135,7 @@ FUNCTION GetDiskInfo
 	ENDIF
 
 	LOCAL loWMI, loDisks, lnI, loRet
-	m.loWMI = GETOBJECT("winmgmts:"+ "{impersonationLevel=impersonate}!\\.\root\cimv2")
+	m.loWMI = GETOBJECT("winmgmts:{impersonationLevel=impersonate}!\\.\root\cimv2")
 	m.loDisks = m.loWMI.ExecQuery ("Select SerialNumber, Caption, Description, Name from Win32_Physicalmedia")
 	m.lnI = 0
 	m.loRet = CREATEOBJECT("EMPTY")

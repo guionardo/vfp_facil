@@ -19,7 +19,7 @@ FUNCTION HashOk
 	LOCAL lcAl,lnHash,llRet
 	m.lcAl = ALIAS()
 	SELECT (m.lcAlias)
-	m.lnHash = VAL(SYS(2017,"HASHNO",1,1))
+	m.lnHash = VAL(SYS(2017,"HASHNO",1,2))
 	m.llRet = (m.lnHash=EVALUATE(m.lcAlias+".HASHNO"))
 	IF USED(m.lcAl)
 		SELECT (m.lcAl)
@@ -51,11 +51,11 @@ FUNCTION HashUpdate
 			RETURN .F.
 		ENDIF
 	ENDIF
-	REPLACE HASHNO WITH VAL(SYS(2017,"HASHNO",1,1))
+	REPLACE HASHNO WITH VAL(SYS(2017,"HASHNO",1,2))
 	IF !m.llRL
 		RegUnlock(m.lcAlias)
 	ENDIF
-	WAIT WINDOW "Hash de "+m.lcAlias+"#"+TRANSFORM(RECNO(m.lcAlias))+" atualizado." TIMEOUT 5
+	WAIT WINDOW "Hash de "+m.lcAlias+"#"+TRANSFORM(RECNO(m.lcAlias))+" atualizado." TIMEOUT 5 NOWAIT 
 	IF USED(m.lcAl)
 		SELECT (m.lcAl)
 	ENDIF
