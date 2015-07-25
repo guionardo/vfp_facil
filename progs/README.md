@@ -73,6 +73,7 @@ Inicializa as APIs
 | ------ | --------- |
 | PushAlias | Grava Alias/Recno/Order do alias atual em uma lista FIFO |
 | PopAlias | Restaura Alias/Recno/Order do último alias registrado por PushAlias |
+| SQLQueryVars | Consulta SQL atualiza variáveis |
 
 ## gs_trataerros.prg
 

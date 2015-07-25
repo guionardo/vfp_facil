@@ -57,3 +57,34 @@ FUNCTION PopAlias
 	ENDIF
 	RETURN .T.
 ENDFUNC
+****
+*
+* SQLQueryVars	- Consulta SQL atualiza variáveis
+*
+* 	lcSQL			Comando SQL
+*	lxV1..lxV10		Variáveis que receberão o conteúdo dos campos da primeira linha do SELECT
+*
+*	Retorna .t./.f.
+*
+* 	Exemplo			=SQLQueryVars("SELECT CODUSU,APEUSU FROM USUARIO WHERE CODUSU='  1'",@lcCODUSU,@lcAPEUSU)
+*
+****
+FUNCTION SQLQueryVars
+	LPARAMETERS lcSQL, lxV1, lxV2, lxV3, lxV4, lxV5, lxV6, lxV7, lxV8, lxV9, lxV10
+	LOCAL laQ(1,1), llErro, lnI, lcC
+	m.lcSQL = ALLTRIM(m.lcSQL)+" INTO ARRAY laQ"
+	TRY
+		&lcSQL
+		m.llErro = (_TALLY=0)
+	CATCH TO loExc
+		m.llErro = .T.
+	ENDTRY
+	IF m.llErro
+		RETURN .F.
+	ENDIF
+	FOR m.lnI = 1 TO MIN(ALEN(m.laQ,2),10)
+		m.lcC = "m.lxV"+TRANSFORM(m.lnI)+"=m.laQ(1,"+TRANSFORM(m.lnI)+")"
+		&lcC
+	NEXT
+	RETURN .T.
+ENDFUNC
