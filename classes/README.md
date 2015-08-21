@@ -27,3 +27,6 @@ Diálogo de progresso
 
 ## gs_metadata.prg
 Classe para manutenção de estruturas de tabelas baseado em metadata
+
+## gs_buscaarquivo.prg
+Classe para busca de arquivo(s) em múltiplas pastas
