@@ -30,3 +30,6 @@ Classe para manutenção de estruturas de tabelas baseado em metadata
 
 ## gs_buscaarquivos.prg
 Classe para busca de arquivo(s) em múltiplas pastas
+
+## gs_captcha.prg
+Função de confirmação com CAPTCHA numérico
