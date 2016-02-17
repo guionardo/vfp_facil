@@ -1,6 +1,6 @@
 ****
 *
-* FunÃ§Ãµes de data e hora
+* Funçõees de data e hora
 *
 ****
 
@@ -8,7 +8,7 @@
 *
 * Retorna a data/hora de um servidor NTP
 *
-* Depende da declaraÃ§Ã£o prÃ©via de ShellExecute, GetLastError, WinApiErrMsg e DeleteFile
+* Depende da declaração prévia de ShellExecute, GetLastError, WinApiErrMsg e DeleteFile
 ****
 FUNCTION DataHoraInternet
 	LPARAMETERS lcNTPServer
@@ -78,4 +78,21 @@ FUNCTION DataHoraInternet
 
 
 *	w32tm /stripchart /samples:1 /computer:es.pool.ntp.org /dataonly
+ENDFUNC
+
+
+****
+*
+* Une dois valores DATE e STRING (hh:mm:ss) em um datetime
+*
+****
+FUNCTION DataHora
+	LPARAMETERS ldData, lcHora
+	IF VARTYPE(m.ldData)#"D"
+		RETURN {}
+	ENDIF
+	IF VARTYPE(m.lcHora)#"C"
+		m.lcHora = "00:00:00"
+	ENDIF
+	RETURN CTOT(DTOC(m.ldData)+" "+m.lcHora)
 ENDFUNC

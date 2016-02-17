@@ -12,7 +12,8 @@ DEFINE CLASS MetaData AS COLLECTION
 	BASE		= ""
 	LogFunc		= "GSAddLog"	&& Função de log
 	MsgFunc		= "Erros"		&& Função de mensagem
-	
+	Mensagem	= ""			&& Mensagem
+
 	FUNCTION INIT
 		LPARAMETERS lcArq
 		IF TYPE("M.PCBase")="U"
@@ -58,7 +59,7 @@ DEFINE CLASS MetaData AS COLLECTION
 			ENDIF
 			THIS.ADD(m.loRet,m.loRet.ALIAS)
 			IF !THIS.CheckStruct(m.loRet.DBF,m.loRet.ALIAS,m.loRet.FIELDS,m.loRet.INDEXES)
-				Erros(m.PCCheckStruct,"Metadata Inválido!")
+				Erros(THIS.Mensagem,"Metadata Inválido!")
 				RETURN .F.
 			ENDIF
 		NEXT
@@ -132,13 +133,13 @@ DEFINE CLASS MetaData AS COLLECTION
 		LOCAL cSQL, lEstavaAberta, nF, cFN, cFT, nI, oExc AS EXCEPTION, lErro, lExclusiva
 *
 * Se a tabela não estiver aberta, abre em modo compartilhado
-* 
+*
 		m.lEstavaAberta = USED(m.cAlias)
 		m.lExclusiva = m.lEstavaAberta AND ISEXCLUSIVE(m.cAlias)
 		IF USED(m.cAlias)
 			m.cTable = DBF(m.cAlias)
 		ELSE
-			m.cTable = FORCEEXT(this.FULLPATH(m.cTable),"DBF")
+			m.cTable = FORCEEXT(THIS.FULLPATH(m.cTable),"DBF")
 			IF !FILE(m.cTable)
 				m.cSQL = 'CREATE TABLE "'+m.cTable+'" ('+STRTRAN(m.cStruct,';',',')+')'
 				RETURN m.cSQL
@@ -330,6 +331,7 @@ DEFINE CLASS MetaData AS COLLECTION
 ****
 	PROCEDURE Msg
 		LPARAMETERS lcMsg, llErro
+		THIS.Mensagem = IIF(m.llErro,'ERRO: ','')+m.lcMsg
 		IF VARTYPE(THIS.MsgFunc)#"C"
 			RETURN
 		ENDIF
@@ -492,7 +494,7 @@ DEFINE CLASS MetaData AS COLLECTION
 				ERASE (m.cCDX)
 			ENDIF
 
-			IF !this.ARQExclusivo(m.cDBF)
+			IF !THIS.ARQExclusivo(m.cDBF)
 				THIS.LOG('Tabela '+m.cDBF+' USE EXCLUSIVE FALHOU!')
 				THIS.Msg('01-É necessário abrir a tabela '+m.cAlias+' exclusivamente, mas existem outros usuários a acessando.\n'+;
 					'Execute o sistema em modo EXCLUSIVO para garantir o acesso às tabelas.',.T.)
@@ -542,15 +544,15 @@ DEFINE CLASS MetaData AS COLLECTION
 		ENDIF
 		RETURN .T.
 	ENDFUNC
-	
-	****
-	*
-	* Retorna o SQL de criação da TABELA
-	*
-	****
+
+****
+*
+* Retorna o SQL de criação da TABELA
+*
+****
 	FUNCTION TabelaSQL
-	LPARAMETERS lcDBF
-	
-	
-	ENDFUNC 
+		LPARAMETERS lcDBF
+
+
+	ENDFUNC
 ENDDEFINE

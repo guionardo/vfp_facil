@@ -134,7 +134,7 @@ DEFINE CLASS LOG AS CUSTOM
 		m.lcSaida = ''
 
 		FOR m.lnI = 1 TO GETWORDCOUNT(m.lcMsg,THIS.LineSep)
-			m.lcSaida = m.lcSaida + m.lcCabeca+GETWORDNUM(m.lcMsg,m.lnI,THIS.LineSep)+CHR(13)+CHR(10)
+			m.lcSaida = m.lcSaida + m.lcCabeca+" "+GETWORDNUM(m.lcMsg,m.lnI,THIS.LineSep)+CHR(13)+CHR(10)
 		NEXT
 		STRTOFILE(m.lcSaida ,THIS.Arquivo,.T.)
 		RETURN .T.

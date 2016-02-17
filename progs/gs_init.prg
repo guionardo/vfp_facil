@@ -1,6 +1,6 @@
 ****
 *
-* InicializaÃ§Ã£o das funÃ§Ãµes Guiosoft
+* Inicialização das funções Guiosoft
 *
 ****
 
@@ -21,7 +21,10 @@ SET PROCEDURE TO ;
 	GS_HWINFO, ;
 	GS_HASH,;
 	GS_WAITCENTER,;
-	GS_DATAHORA ;
+	GS_DATAHORA, ;
+	GS_FORMBROWSE, ;
+	GS_ZIP, ;
+	GS_PAGE ;
 	ADDITIVE
 
 DO GSAPIInit

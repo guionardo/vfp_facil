@@ -53,9 +53,9 @@ PROCEDURE GSAPIInit
 
 	DECLARE INTEGER timeGetTime IN "winmm.dll"
 
-	*
-	* Funções de exclusão, movimento e cópia de arquivos
-	*
+*
+* Funções de exclusão, movimento e cópia de arquivos
+*
 	PUBLIC plFileOp_ShowError		&& Flag para mostrar erro nas operações de arquivos
 	m.plFileOp_ShowError = .T.
 
@@ -83,7 +83,7 @@ ENDPROC
 
 ****
 *
-* Obtém a mensagem de erro do sistema a partir do código 
+* Obtém a mensagem de erro do sistema a partir do código
 *
 ****
 FUNCTION WinApiErrMsg
@@ -116,7 +116,7 @@ ENDFUNC
 
 ****
 *
-* Tenta Excluir arquivo 
+* Tenta Excluir arquivo
 * Retorna .T. em caso de sucesso
 *
 ****
@@ -275,13 +275,13 @@ FUNCTION CreateShortCut
 		oShell = CREATEOBJECT("Wscript.shell")
 
 		IF !DIRECTORY(m.cDestiny) && Se o path não existe, identifica pelos SpecialFolders
-			* AllUsersDesktop	Shortcuts that appear on the desktop for all users
-			* AllUsersStartMenu	Shortcuts that appear on the Start menu for all users
-			* AllUsersPrograms	Shortcuts that appear on the Programs menu for all users
-			* AllUsersStartup	Shortcuts to programs that are run on startup for all users
-			* Desktop			Shortcuts that appear on the desktop for the current user
-			* StartMenu			Shortcuts that appear in the current users start menu
-			* Startup			Shortcuts to applications that run automatically when the current user logs on to the system
+* AllUsersDesktop	Shortcuts that appear on the desktop for all users
+* AllUsersStartMenu	Shortcuts that appear on the Start menu for all users
+* AllUsersPrograms	Shortcuts that appear on the Programs menu for all users
+* AllUsersStartup	Shortcuts to programs that are run on startup for all users
+* Desktop			Shortcuts that appear on the desktop for the current user
+* StartMenu			Shortcuts that appear in the current users start menu
+* Startup			Shortcuts to applications that run automatically when the current user logs on to the system
 			m.cDesktopPath = m.oShell.SpecialFolders(m.cDestiny)
 		ENDIF
 		IF !DIRECTORY(m.cDesktopPath)
@@ -297,7 +297,7 @@ FUNCTION CreateShortCut
 			.DESCRIPTION = m.cAppDescription
 			.WindowStyle = 4  && Maximized
 			.Arguments = m.cAppArgs
-			*.IconLocation = ???
+*.IconLocation = ???
 			.SAVE
 		ENDWITH
 	CATCH TO ex
@@ -381,7 +381,7 @@ FUNCTION IsUserAdmin
 	TRY
 		lnResult = IsUserAnAdmin()
 	CATCH
-		*** OLD OLD Version of Windows assume .T.
+*** OLD OLD Version of Windows assume .T.
 		lnResult = 1
 	ENDTRY
 	RETURN m.lnResult#0
@@ -395,13 +395,13 @@ FUNCTION GetWinVer
 	LOCAL lcVer
 	m.lcVer = ""
 	TRY
-		* http://fox.wikis.com/wc.dll?Wiki~GetWindowsVersion
+* http://fox.wikis.com/wc.dll?Wiki~GetWindowsVersion
 		loWMI = GETOBJECT("winmgmts://")
 		loOSs = loWMI.InstancesOf("Win32_OperatingSystem")
 		FOR EACH loOS IN loOSs
 			m.lcVer = loOS.CAPTION
 		ENDFOR
-		* https://www.berezniker.com/content/pages/visual-foxpro/how-detect-64-bit-os
+* https://www.berezniker.com/content/pages/visual-foxpro/how-detect-64-bit-os
 		DECLARE LONG GetModuleHandle IN WIN32API STRING lpModuleName
 		DECLARE LONG GetProcAddress IN WIN32API LONG hModule, STRING lpProcName
 		llIsWow64ProcessExists = (GetProcAddress(GetModuleHandle("kernel32"),"IsWow64Process") <> 0)
@@ -411,8 +411,8 @@ FUNCTION GetWinVer
 			DECLARE LONG GetCurrentProcess IN WIN32API
 			DECLARE LONG IsWow64Process IN WIN32API LONG hProcess, LONG @ Wow64Process
 			lnIsWow64Process = 0
-			* IsWow64Process function return value is nonzero if it succeeds
-			* The second output parameter value will be nonzero if VFP application is running under 64-bit OS
+* IsWow64Process function return value is nonzero if it succeeds
+* The second output parameter value will be nonzero if VFP application is running under 64-bit OS
 			IF IsWow64Process( GetCurrentProcess(), @lnIsWow64Process) <> 0
 				llIs64BitOS = (lnIsWow64Process <> 0)
 			ENDIF
@@ -471,7 +471,7 @@ FUNCTION Createprocess(lcExe,lcCommandLine,lnShowWindow,llWaitForCompletion)
 			INTEGER hHandle, INTEGER dwMilliseconds
 
 		DO WHILE .T.
-			*** Update every 100 milliseconds
+*** Update every 100 milliseconds
 			IF WaitForSingleObject(lhProcess, 100) != WAIT_TIMEOUT
 				EXIT
 			ELSE
@@ -490,46 +490,46 @@ FUNCTION Createprocess(lcExe,lcCommandLine,lnShowWindow,llWaitForCompletion)
 FUNCTION GetStartupInfo(lnShowWindow)
 	LOCAL lnFlags
 
-	* creates the STARTUP structure to specify main window
-	* properties if a new window is created for a new process
+* creates the STARTUP structure to specify main window
+* properties if a new window is created for a new process
 
 	IF (VARTYPE(m.lnShowWindow)#"N") OR !BETWEEN(m.lnShowWindow,0,11)
-		* SW_FORCEMINIMIZE		11	Minimizes a window, even if the thread that owns the window is not responding. This flag should only be used when minimizing windows from a different thread.
-		* SW_HIDE				 0	Hides the window and activates another window.
-		* SW_MAXIMIZE			3	Maximizes the specified window.
-		* SW_MINIMIZE			6	Minimizes the specified window and activates the next top-level window in the Z order.
-		* SW_RESTORE			9	Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window.
-		* SW_SHOW				5	Activates the window and displays it in its current size and position.
-		* SW_SHOWDEFAULT		10	Sets the show state based on the SW_ value specified in the STARTUPINFO structure passed to the CreateProcess function by the program that started the application.
-		* SW_SHOWMAXIMIZED		3	Activates the window and displays it as a maximized window.
-		* SW_SHOWMINIMIZED		2	Activates the window and displays it as a minimized window.
-		* SW_SHOWMINNOACTIVE	7	Displays the window as a minimized window. This value is similar to SW_SHOWMINIMIZED, except the window is not activated.
-		* SW_SHOWNA				8	Displays the window in its current size and position. This value is similar to SW_SHOW, except that the window is not activated.
-		* SW_SHOWNOACTIVATE		4	Displays a window in its most recent size and position. This value is similar to SW_SHOWNORMAL, except that the window is not activated.
-		* SW_SHOWNORMAL			1
+* SW_FORCEMINIMIZE		11	Minimizes a window, even if the thread that owns the window is not responding. This flag should only be used when minimizing windows from a different thread.
+* SW_HIDE				 0	Hides the window and activates another window.
+* SW_MAXIMIZE			3	Maximizes the specified window.
+* SW_MINIMIZE			6	Minimizes the specified window and activates the next top-level window in the Z order.
+* SW_RESTORE			9	Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window.
+* SW_SHOW				5	Activates the window and displays it in its current size and position.
+* SW_SHOWDEFAULT		10	Sets the show state based on the SW_ value specified in the STARTUPINFO structure passed to the CreateProcess function by the program that started the application.
+* SW_SHOWMAXIMIZED		3	Activates the window and displays it as a maximized window.
+* SW_SHOWMINIMIZED		2	Activates the window and displays it as a minimized window.
+* SW_SHOWMINNOACTIVE	7	Displays the window as a minimized window. This value is similar to SW_SHOWMINIMIZED, except the window is not activated.
+* SW_SHOWNA				8	Displays the window in its current size and position. This value is similar to SW_SHOW, except that the window is not activated.
+* SW_SHOWNOACTIVATE		4	Displays a window in its most recent size and position. This value is similar to SW_SHOWNORMAL, except that the window is not activated.
+* SW_SHOWNORMAL			1
 		lnShowWindow = 1
 	ENDIF
 
-	*| typedef struct _STARTUPINFO {
-	*| DWORD cb; 4
-	*| LPTSTR lpReserved; 4
-	*| LPTSTR lpDesktop; 4
-	*| LPTSTR lpTitle; 4
-	*| DWORD dwX; 4
-	*| DWORD dwY; 4
-	*| DWORD dwXSize; 4
-	*| DWORD dwYSize; 4
-	*| DWORD dwXCountChars; 4
-	*| DWORD dwYCountChars; 4
-	*| DWORD dwFillAttribute; 4
-	*| DWORD dwFlags; 4
-	*| WORD wShowWindow; 2
-	*| WORD cbReserved2; 2
-	*| LPBYTE lpReserved2; 4
-	*| HANDLE hStdInput; 4
-	*| HANDLE hStdOutput; 4
-	*| HANDLE hStdError; 4
-	*| } STARTUPINFO, *LPSTARTUPINFO; total: 68 bytes
+*| typedef struct _STARTUPINFO {
+*| DWORD cb; 4
+*| LPTSTR lpReserved; 4
+*| LPTSTR lpDesktop; 4
+*| LPTSTR lpTitle; 4
+*| DWORD dwX; 4
+*| DWORD dwY; 4
+*| DWORD dwXSize; 4
+*| DWORD dwYSize; 4
+*| DWORD dwXCountChars; 4
+*| DWORD dwYCountChars; 4
+*| DWORD dwFillAttribute; 4
+*| DWORD dwFlags; 4
+*| WORD wShowWindow; 2
+*| WORD cbReserved2; 2
+*| LPBYTE lpReserved2; 4
+*| HANDLE hStdInput; 4
+*| HANDLE hStdOutput; 4
+*| HANDLE hStdError; 4
+*| } STARTUPINFO, *LPSTARTUPINFO; total: 68 bytes
 
 
 	#DEFINE STARTF_USESTDHANDLES 0x0100
@@ -550,17 +550,17 @@ FUNCTION GetStartupInfo(lnShowWindow)
 		binToChar(0) + binToChar(0) + binToChar(0) + REPLICATE(CHR(0),30)
 
 
-	************************************************************************
+************************************************************************
 FUNCTION CHARTOBIN(lcBinString,llSigned)
-	****************************************
-	***  Function: Binary Numeric conversion routine.
-	***            Converts DWORD or Unsigned Integer string
-	***            to Fox numeric integer value.
-	***      Pass: lcBinString -  String that contains the binary data
-	***            llSigned    -  if .T. uses signed conversion
-	***                           otherwise value is unsigned (DWORD)
-	***    Return: Fox number
-	************************************************************************
+****************************************
+***  Function: Binary Numeric conversion routine.
+***            Converts DWORD or Unsigned Integer string
+***            to Fox numeric integer value.
+***      Pass: lcBinString -  String that contains the binary data
+***            llSigned    -  if .T. uses signed conversion
+***                           otherwise value is unsigned (DWORD)
+***    Return: Fox number
+************************************************************************
 	LOCAL m.i, lnWord
 
 	lnWord = 0
@@ -574,15 +574,15 @@ FUNCTION CHARTOBIN(lcBinString,llSigned)
 
 	RETURN lnWord
 
-	*  wwAPI :: CharToBin
+*  wwAPI :: CharToBin
 
-	************************************************************************
+************************************************************************
 FUNCTION binToChar(lnValue)
-	****************************************
-	***  Function: Creates a DWORD value from a number
-	***      Pass: lnValue - VFP numeric integer (unsigned)
-	***    Return: binary string
-	************************************************************************
+****************************************
+***  Function: Creates a DWORD value from a number
+***      Pass: lnValue - VFP numeric integer (unsigned)
+***    Return: binary string
+************************************************************************
 
 	LOCAL byte(4)
 
@@ -597,27 +597,27 @@ FUNCTION binToChar(lnValue)
 
 	RETURN CHR(byte(1))+CHR(byte(2))+CHR(byte(3))+CHR(byte(4))
 
-	*  wwAPI :: BinToChar
+*  wwAPI :: BinToChar
 
-	************************************************************************
+************************************************************************
 FUNCTION binToWordChar(lnValue)
-	****************************************
-	***  Function: Creates a DWORD value from a number
-	***      Pass: lnValue - VFP numeric integer (unsigned)
-	***    Return: binary string
-	************************************************************************
+****************************************
+***  Function: Creates a DWORD value from a number
+***      Pass: lnValue - VFP numeric integer (unsigned)
+***    Return: binary string
+************************************************************************
 
 	RETURN CHR(MOD(m.lnValue,256)) + CHR(INT(m.lnValue/256))
 
-	*****************************************************************************************
-	* Function....:	 ReduceMemory()
-	* Author......:  Bernard Bout
-	* Date........:  05/12/2007 3:03:15 PM
-	* Returns.....:
-	* Parameters..:
-	* Notes.......:  reduces memory usage for vfp
-	* URL.........: http://www.foxite.com/faq/default.aspx?id=55
-	*****************************************************************************************
+*****************************************************************************************
+* Function....:	 ReduceMemory()
+* Author......:  Bernard Bout
+* Date........:  05/12/2007 3:03:15 PM
+* Returns.....:
+* Parameters..:
+* Notes.......:  reduces memory usage for vfp
+* URL.........: http://www.foxite.com/faq/default.aspx?id=55
+*****************************************************************************************
 
 FUNCTION ReduceMemory
 	DECLARE INTEGER SetProcessWorkingSetSize IN kernel32 AS SetProcessWorkingSetSize  ;
@@ -646,7 +646,7 @@ FUNCTION MoveArquivo
 	m.lnMovSuc = 0
 
 	IF ("*"$m.lcOrigem) OR ("?"$m.lcOrigem)
-		* Se houver caracteres curinga, processa a lista de arquivos/pastas
+* Se houver caracteres curinga, processa a lista de arquivos/pastas
 		LOCAL ARRAY laArq(1,5)
 		m.lnMovTot = ADIR(m.laArq,m.lcOrigem)
 		IF m.lnMovTot = 0
@@ -812,13 +812,34 @@ ENDFUNC
 *
 * tcSource			Arquivo origem
 * tcDestination		Destino
-* tcAction			MOVE ou COPY
+* tcAction			MOVE ou COPY ou DELETE
 * lcUserCanceled	Usuário cancelou a operação (usar com referência @)
 *
 * Retorno			.T./.F.
 *
 ****
-#INCLUDE INCLUDES\SHFileOperation.h
+* Shell File Operations
+
+#DEFINE FO_MOVE           0x0001
+#DEFINE FO_COPY           0x0002
+#DEFINE FO_DELETE         0x0003
+*#DEFINE FO_RENAME         0x0004
+
+#DEFINE FOF_MULTIDESTFILES         0x0001
+#DEFINE FOF_CONFIRMMOUSE           0x0002
+#DEFINE FOF_SILENT                 0x0004  && don't create progress/report
+#DEFINE FOF_RENAMEONCOLLISION      0x0008
+#DEFINE FOF_NOCONFIRMATION         0x0010  && Don't prompt the user.
+#DEFINE FOF_WANTMAPPINGHANDLE      0x0020  && Fill in SHFILEOPSTRUCT.hNameMappings
+&& Must be freed using SHFreeNameMappings
+#DEFINE FOF_ALLOWUNDO              0x0040  && DELETE - sends the file to the Recycle Bin
+#DEFINE FOF_FILESONLY              0x0080  && on *.*, do only files
+#DEFINE FOF_SIMPLEPROGRESS         0x0100  && don't show names of files
+#DEFINE FOF_NOCONFIRMMKDIR         0x0200  && don't confirm making any needed dirs
+#DEFINE FOF_NOERRORUI              0x0400  && don't put up error UI
+#DEFINE FOF_NOCOPYSECURITYATTRIBS  0x0800  && dont copy NT file Security Attributes
+#DEFINE FOF_NORECURSION            0x1000  && don't recurse into directories.
+
 * http://www.berezniker.com/content/pages/visual-foxpro/file-operations-progressbar
 
 FUNCTION FileOpWithProgressbar
@@ -827,24 +848,29 @@ FUNCTION FileOpWithProgressbar
 	LOCAL loHeap, lcAction, lnRetCode, llCanceled, laActionList[1]
 
 	DECLARE INTEGER SHFileOperation IN SHELL32.DLL STRING @ LPSHFILEOPSTRUCT
-	* Heap allocation class
+* Heap allocation class
 
 	loHeap = NEWOBJECT('Heap',"GS_CLSHEAP.PRG")
 
 	lcAction = UPPER(IIF( EMPTY( tcAction) OR VARTYPE(tcAction) <> "C", "COPY", tcAction))
-	* Convert Action name into function parameter
-	ALINES(laActionList, "MOVE,COPY",",")
+* Convert Action name into function parameter
+	ALINES(laActionList, "MOVE,COPY,DELETE",",")
 	lnAction = ASCAN(laActionList, lcAction)
 	IF lnAction = 0
-		* Unknown action
+* Unknown action
 		RETURN NULL
 	ENDIF
 
 	lcSourceString = tcSource + CHR(0) + CHR(0)
+	lnFlag = FOF_NOCONFIRMATION + FOF_NOCONFIRMMKDIR + FOF_NOERRORUI
+
+	IF m.lnAction=3
+	* TODO: Arquivo/pasta não é enviado para lixeira, verificar
+		m.lnFlag = m.lnFlag + FOF_ALLOWUNDO
+		m.tcDestination = ""
+	ENDIF
 	lcDestString   = tcDestination + CHR(0) + CHR(0)
 	lnStringBase   = loHeap.AllocBlob(lcSourceString+lcDestString)
-
-	lnFlag = FOF_NOCONFIRMATION + FOF_NOCONFIRMMKDIR + FOF_NOERRORUI
 
 	lcFileOpStruct  = NumToLONG(_SCREEN.HWND) + ;
 		NumToLONG(lnAction) + ;
@@ -855,7 +881,7 @@ FUNCTION FileOpWithProgressbar
 
 	lnRetCode = SHFileOperation(@lcFileOpStruct)
 
-	* Did user canceled operation?
+* Did user canceled operation?
 	tlUserCanceled= ( SUBSTR(lcFileOpStruct, 19, 4) <> NumToLONG(0) )
 
 	RETURN (lnRetCode = 0)

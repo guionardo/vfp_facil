@@ -101,6 +101,9 @@ ENDFUNC
 ****
 FUNCTION SoNumero
 	LPARAMETERS lcS
+	IF VARTYPE(m.lcS)#"C"
+		m.lcS = TRANSFORM(m.lcS)
+	ENDIF
 	LOCAL lnI, lcR
 	m.lcR = ""
 	FOR m.lnI = 1 TO LEN(m.lcS)
@@ -125,7 +128,15 @@ FUNCTION AjustaTelefone
 	ENDIF
 	RETURN m.lcNF
 ENDFUNC
-
+****
+*
+* FormataTelefone
+*
+****
+FUNCTION FormataTelefone
+	LPARAMETERS lcNF
+	RETURN TRANSFORM(AjustaTelefone(m.lcNF),"@R (##)#####-####")
+ENDFUNC
 ****
 *
 * Verifica documento CPF/CNPJ de acordo como o tamanho
@@ -133,15 +144,9 @@ ENDFUNC
 ****
 FUNCTION ChkCPFCNPJ
 	LPARAMETERS cDOC
-	m.cDOC = ALLTRIM(STR(VAL(m.cDOC)))
-	IF LEN(m.cDOC)<>9 AND LEN(m.cDOC)<>14
-		RETURN .F.
-	ENDIF
-
-	IF !DigitoOk(LEFT(m.cDOC,LEN(m.cDOC)-2))
-		RETURN .F.
-	ENDIF
-	RETURN DigitoOk(m.cDOC)
+	m.cDOC = ALLTRIM(TRANSFORM(m.cDOC))
+	RETURN ((LEN(m.cDOC)=11) AND CPFOk(m.cDOC)) OR ;
+		((LEN(m.cDOC)=14) AND CNPJOk(m.cDOC))
 ENDFUNC
 ****
 *
@@ -260,5 +265,54 @@ FUNCTION EmailOK
 	IF !"."$GETWORDNUM(m.lcEmail,2,'@')
 		RETURN .F.
 	ENDIF
+	RETURN .T.
+ENDFUNC
+
+*------------------------------------------------------------
+FUNCTION CNPJOk
+* Parametro : CNPJ a verificar (C14)
+* Retorna : .T. se confirmado
+*------------------------------------------------------------
+
+	PARAMETERS wcgc
+	wn1 = VAL(SUBS(wcgc,01,1))
+	wn2 = VAL(SUBS(wcgc,02,1))
+	wn3 = VAL(SUBS(wcgc,03,1))
+	wn4 = VAL(SUBS(wcgc,04,1))
+	wn5 = VAL(SUBS(wcgc,05,1))
+	wn6 = VAL(SUBS(wcgc,06,1))
+	wn7 = VAL(SUBS(wcgc,07,1))
+	wn8 = VAL(SUBS(wcgc,08,1))
+	wn9 = VAL(SUBS(wcgc,09,1))
+	wn10 = VAL(SUBS(wcgc,10,1))
+	wn11 = VAL(SUBS(wcgc,11,1))
+	wn12 = VAL(SUBS(wcgc,12,1))
+	wn13 = VAL(SUBS(wcgc,13,1))
+	wn14 = VAL(SUBS(wcgc,14,1))
+
+* CALCULO DO 13o ALGARISMO
+* ------------------------
+	soma1   =  wn1*5+wn2*4+wn3*3+wn4*2+wn5*9+wn6*8+wn7*7+wn8*6+wn9*5+wn10*4+wn11*3+wn12*2
+	dig1	=  11 - MOD(soma1,11)
+	IF dig1 = 10 .OR. dig1 = 11
+		dig1 = 0
+	ENDIF
+
+	IF dig1 <> wn13
+		RETURN .F.
+	ENDIF
+
+* CALCULO DO 14o ALGARISMO
+* ------------------------
+	soma2  =  wn1*6+wn2*5+wn3*4+wn4*3+wn5*2+wn6*9+wn7*8+wn8*7+wn9*6+wn10*5+wn11*4+wn12*3+wn13*2
+	dig2   =  11 - MOD(soma2,11)
+	IF dig2 = 10 .OR. dig2 = 11
+		dig2 = 0
+	ENDIF
+
+	IF dig2 <> wn14
+		RETURN .F.
+	ENDIF
+
 	RETURN .T.
 ENDFUNC
