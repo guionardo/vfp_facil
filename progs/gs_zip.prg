@@ -30,9 +30,15 @@ ENDFUNC
 * Adiciona arquivo a um ZIP
 ****
 FUNCTION GSZip_Adiciona
-	LPARAMETERS lcArqZip, lcArq, llMove
-	IF (VARTYPE(m.lcArqZip)#"C") OR (VARTYPE(m.lcArq)#"C")
+	LPARAMETERS lcArqZip, lcArq, llMove, loApp, loAZip
+	IF (VARTYPE(m.lcArqZip)#"C")
 		RETURN .F.
+	ENDIF
+	IF (VARTYPE(m.lcArq)="C") AND (TYPE("m.lcArq[1]")="C")
+		FOR EACH m.lcA IN m.lcArq
+			GSZip_Adiciona(m.lcArqZip,m.lcA,m.llMove,m.loApp,m.loAZip)
+		ENDFOR
+		RETURN .T.
 	ENDIF
 	IF ("?"$m.lcArq) OR ("*"$m.lcArq)
 		LOCAL ARRAY laArqs(1,1)
@@ -43,7 +49,7 @@ FUNCTION GSZip_Adiciona
 		m.lcPath = ADDBS(JUSTPATH(m.lcArq))
 
 		FOR m.lnI = 1 TO ALEN(m.laArqs,1)
-			m.llErro = m.llErro OR !GSZip_Adiciona(m.lcArqZip,m.lcPath+m.laArqs(m.lnI,1),m.llMove)
+			m.llErro = m.llErro OR !GSZip_Adiciona(m.lcArqZip,m.lcPath+m.laArqs(m.lnI,1),m.llMove,m.loApp, m.loAZip)
 		NEXT
 		RETURN .T.
 	ELSE
@@ -56,11 +62,14 @@ FUNCTION GSZip_Adiciona
 		RETURN .F.
 	ENDIF
 
-	LOCAL loApp, loAZip, lnOpcoes
-	m.loApp = CREATEOBJECT("SHELL.APPLICATION")
-	m.loAZip = m.loApp.NameSpace(""+m.lcArqZip)
+	LOCAL lnOpcoes
 
-	m.lnOpcoes = 16 + 2048
+	IF VARTYPE(m.loApp)="L"
+		m.loApp = CREATEOBJECT("SHELL.APPLICATION")
+		m.loAZip = m.loApp.NameSpace(""+m.lcArqZip)
+	ENDIF
+
+	m.lnOpcoes = 8 + 16 + 2048
 
 *!*		(4) 	Do not display a progress dialog box.
 *!*		(8)		Give the file being operated on a new name in a move, copy, or rename operation if a file with the target name already exists.
