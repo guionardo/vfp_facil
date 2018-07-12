@@ -1,5 +1,5 @@
 *
-* Funções de acesso INTERNET
+* Funï¿½ï¿½es de acesso INTERNET
 *
 *
 
@@ -30,11 +30,11 @@
 #DEFINE PROXY_CFG 'PROXY.CFG'
 
 *
-* Efetua o download do conteúdo da URL
+* Efetua o download do conteï¿½do da URL
 *	lcURL		URL
-*	@lcRetorno	String com o conteúdo
+*	@lcRetorno	String com o conteï¿½do
 *	@lcMsg		Mensagem de retorno
-*	llBinary	Download binário = .t. / Texto = .f.
+*	llBinary	Download binï¿½rio = .t. / Texto = .f.
 *	lcMsgAnt	Mensagem fixa do wait
 *	RETURN		BOOL	Sucesso
 *
@@ -108,7 +108,7 @@ FUNCTION DownloadToFile(lcURL, lcPastaDestino,lcMsg,lcMsgAnt)
 *
 * Download de um arquivo via FTP
 * lcFTP		HostFTP
-* lcUser	Usuário
+* lcUser	Usuï¿½rio
 * lcPass	Senha
 * lcPath	Caminho do arquivo no servidor
 * lcDestino	Nome do arquivo local
@@ -188,7 +188,7 @@ ENDFUNC
 *
 * Download de um arquivo via FTP
 * lcFTP		HostFTP
-* lcUser	Usuário
+* lcUser	Usuï¿½rio
 * lcPass	Senha
 * lcPath	Caminho do arquivo no servidor
 * lcOrigem	Nome do arquivo local
@@ -258,12 +258,12 @@ FUNCTION FTPUpload(lcFTP,lcUser,lcPass,lcPath,lcOrigem)
 ENDFUNC
 
 *
-* Abre conexão com servidor FTP
+* Abre conexï¿½o com servidor FTP
 * lcHost	Servidor FTP
-* lcUser	Usuário
+* lcUser	Usuï¿½rio
 * lcPass	Senha
-* @lnHandler	Handler de conexão
-* @lnSession	Handler de sessão
+* @lnHandler	Handler de conexï¿½o
+* @lnSession	Handler de sessï¿½o
 * RETURN 	BOOL
 *
 FUNCTION _FTPConnect(lcHost, lcUser, lcPass, lnHandler, lnSession)
@@ -295,7 +295,7 @@ FUNCTION _FTPConnect(lcHost, lcUser, lcPass, lnHandler, lnSession)
 		_Log("!FTP.Connect => "+m.lcErro)
 		InternetCloseHandle(m.lnHandler)
 		m.lnHandler = 0
-		_MSG("Erro de conexão: "+m.lcErro,.T.)
+		_MSG("Erro de conexï¿½o: "+m.lcErro,.T.)
 		RETURN .F.
 	ENDIF
 
@@ -356,14 +356,14 @@ ENDFUNC
 *
 FUNCTION ProxyTest
 	IF !ProxyCheck(.T.)
-* Não há informação de Proxy, nem configuração carregada
-		_MSG("Não há configuração de proxy!")
+* Nï¿½o hï¿½ informaï¿½ï¿½o de Proxy, nem configuraï¿½ï¿½o carregada
+		_MSG("Nï¿½o hï¿½ configuraï¿½ï¿½o de proxy!")
 		RETURN .F.
 	ENDIF
 
 	ProxyCheck()
 	IF EMPTY(_SCREEN.PROXY.HOST)
-		_MSG("Não há host para o proxy!")
+		_MSG("Nï¿½o hï¿½ host para o proxy!")
 		RETURN .F.
 	ENDIF
 	_SCREEN.PROXY.ACTIVE = .T.
@@ -379,8 +379,8 @@ FUNCTION ProxyTest
 			_Log('!'+m.lcLog+"TESTE FALHOU")
 			_MSG("Teste de proxy falhou!",.T.)
 		ELSE
-			_Log('!'+m.lcLog+"CONEXÃO SEM NECESSIDADE DE PROXY")
-			_MSG("Conexão OK sem necessidade de proxy!")
+			_Log('!'+m.lcLog+"CONEXï¿½O SEM NECESSIDADE DE PROXY")
+			_MSG("Conexï¿½o OK sem necessidade de proxy!")
 			m.llSucesso = .T.
 		ENDIF
 	ELSE
@@ -411,7 +411,7 @@ FUNCTION ProxyLoad(lcArqConfig)
 
 	IF GETWORDCOUNT(m.lcH,'|')#5
 		_Log("!ProxyLoad("+m.lcArqConfig+") PARAMETROS INVALIDOS")
-		_MSG("Número de parâmetros inválidos na configuração do proxy em "+m.lcArqConfig)
+		_MSG("Nï¿½mero de parï¿½metros invï¿½lidos na configuraï¿½ï¿½o do proxy em "+m.lcArqConfig)
 		RETURN .F.
 	ENDIF
 	LOCAL lcHost,lnPort,lcUser,lcPass,llActive
@@ -426,7 +426,7 @@ FUNCTION ProxyLoad(lcArqConfig)
 			EMPTY(m.lcUser) OR ;
 			EMPTY(m.lcPass)
 		_Log("!ProxyLoad("+m.lcArqConfig+") PARAMETROS INVALIDOS")
-		_MSG("Parâmetro inválido em "+m.lcArqConfig)
+		_MSG("Parï¿½metro invï¿½lido em "+m.lcArqConfig)
 		RETURN .F.
 	ENDIF
 
@@ -451,7 +451,7 @@ FUNCTION ProxySave(lcArqConfig)
 
 	LOCAL lnH, lcH
 	IF FILE(m.lcArqConfig) AND DeleteFile(m.lcArqConfig)=0
-		_MSG("Não foi possível excluir o arquivo de configuração do proxy em "+m.lcArqConfig,.T.)
+		_MSG("Nï¿½o foi possï¿½vel excluir o arquivo de configuraï¿½ï¿½o do proxy em "+m.lcArqConfig,.T.)
 		RETURN .F.
 	ENDIF
 
@@ -470,7 +470,7 @@ FUNCTION ProxySave(lcArqConfig)
 ENDFUNC
 
 *
-* Define configurações de proxy para objeto WinHttp.WinHttpRequest.5.1
+* Define configuraï¿½ï¿½es de proxy para objeto WinHttp.WinHttpRequest.5.1
 *
 FUNCTION ProxySet(loHTTP)
 	IF m.loHTTP#"O"
@@ -498,7 +498,7 @@ ENDFUNC
 
 
 FUNCTION _MSG(lcMsg,llErro)
-	MESSAGEBOX(m.lcMsg,IIF(m.llErro,16,64),'Conexão internet')
+	MESSAGEBOX(m.lcMsg,IIF(m.llErro,16,64),'Conexï¿½o internet')
 ENDFUNC
 
 FUNCTION _DECLARE
@@ -647,3 +647,17 @@ PROCEDURE TesteInternet
 	? FTPUpload('ftp.tbyte.com.br','tbyteupdate@tbyte.com.br','T1m3@8463',"/VFP.EXE","A:\TEMP\VFP.EXE")
 
 ENDPROC
+
+*
+* Verifica se hÃ¡ uma conexÃ£o com a internet
+*
+FUNCTION InternetOK
+	DECLARE INTEGER InternetGetConnectedState IN WinInet ;
+		INTEGER @lpdwFlags, INTEGER dwReserved
+
+	LOCAL lnFlags, lnReserved, lnSuccess
+	m.lnFlags=0
+	m.lnReserved=0
+	m.lnSuccess=InternetGetConnectedState(@lnFlags,m.lnReserved)
+	RETURN  (m.lnSuccess=1)
+ENDFUNC
